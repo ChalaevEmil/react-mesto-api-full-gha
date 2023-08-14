@@ -7,7 +7,7 @@ const cors = require('cors');
 const NotFoundError = require('./error/Not-found-error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 // eslint-disable-next-line import/order
 const bodyParser = require('body-parser');
 const auth = require('./middlewares/auth');
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: ['http://localhost:3000'], credentials: true,
+  origin: [], credentials: true,
 }));
 
 app.use('/users', auth, userRouter);
