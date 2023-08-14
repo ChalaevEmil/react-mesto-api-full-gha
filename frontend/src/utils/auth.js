@@ -1,5 +1,5 @@
 //export const BASE_URL = "http://localhost:3000";
-export const BASE_URL = "http://api.chola.nomoreparties.co"
+export const BASE_URL = "https://api.chola.nomoreparties.co"
 function checkResponse(res) {
   if (res.ok) {
     return res.json();
