@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: [], credentials: true,
+  origin: ['http://localhost:3000', 'https://chola.nomoreparties.co'], credentials: true,
 }));
 
 app.use('/users', auth, userRouter);

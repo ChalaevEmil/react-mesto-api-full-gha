@@ -6,6 +6,6 @@
 
 IP 158.160.101.221
 
-Frontend https://
+Frontend https://chola.nomoreparties.co
 
-Backend https://
+Backend https://api.chola.nomoreparties.co
