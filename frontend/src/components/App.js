@@ -194,7 +194,7 @@ useEffect(() => {
       .then(() => {
         setLoggedIn(false);
         setEmail(null);
-        navigate("/sign-up", { replace: true });
+        navigate("/sign-in", { replace: true });
       })
       .catch(console.error);
   }
