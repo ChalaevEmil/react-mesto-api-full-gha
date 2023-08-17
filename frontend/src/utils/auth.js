@@ -35,7 +35,6 @@ export function getToken(jwt) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${jwt}`,
     },
     credentials: 'include',
   }).then(checkResponse);
