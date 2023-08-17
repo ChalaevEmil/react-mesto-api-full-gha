@@ -14,7 +14,7 @@ const auth = require('./middlewares/auth');
 const handleError = require('./middlewares/handleError');
 // eslint-disable-next-line import/order
 const { errors } = require('celebrate');
-const { login, createNewUser } = require('./controllers/users');
+const { login, createNewUser, logout } = require('./controllers/users');
 const {
   createNewUserValidation,
   loginValidation,
@@ -42,6 +42,7 @@ app.get('/crash-test', () => {
 });
 app.post('/signin', loginValidation, login);
 app.post('/signup', createNewUserValidation, createNewUser);
+app.post('/signout', logout);
 
 app.use(auth);
 app.use('*', (req, res, next) => {

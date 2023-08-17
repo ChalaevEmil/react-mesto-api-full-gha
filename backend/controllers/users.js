@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const BadRequestError = require('../error/Bad-request-error');
 const NotFoundError = require('../error/Not-found-error');
 const ConflictError = require('../error/Conflict-error');
@@ -54,7 +56,7 @@ const createNewUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then((user) => res.send(user.toJSON()))
+    .then((user) => res.status(201).send(user.toJSON()))
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже существует'));
@@ -73,9 +75,7 @@ const userUpdate = (req, res, updateData, next) => {
   })
     .then((user) => {
       if (user) {
-        res.send(
-          user,
-        );
+        res.send(user);
       } else {
         res.status(NotFoundError).send({
           message: 'Пользователь не найден',
@@ -107,9 +107,11 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
-        expiresIn: '7d',
-      });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
+        { expiresIn: '7d' },
+      );
       res.cookie('jwt', token, {
         maxAge: 36000000,
         httpOnly: true,
@@ -122,6 +124,12 @@ const login = (req, res, next) => {
     });
 };
 
+const logout = (req, res) => {
+  if (res.cookie) {
+    res.clearCookie('jwt').status(200).send({ message: 'Выход' });
+  }
+};
+
 module.exports = {
   getUsers,
   getUserById,
@@ -130,4 +138,5 @@ module.exports = {
   updateUserAvatar,
   login,
   getUser,
+  logout,
 };

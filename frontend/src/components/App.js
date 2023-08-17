@@ -33,13 +33,15 @@ function App() {
   const [infoTooltipText, setInfoTooltipText] = useState("");
 
   useEffect(() => {
-    Promise.all([api.getProfileInfo(), api.getStartedCards()])
-      .then(([profileInfo, card]) => {
-        setCurrentUser(profileInfo);
-        setCards(card);
-      })
-      .catch(console.error);
-  }, []);
+    if (loggedIn) {
+      Promise.all([api.getProfileInfo(), api.getStartedCards()])
+        .then(([profileInfo, card]) => {
+          setCurrentUser(profileInfo);
+          setCards(card);
+        })
+        .catch(console.error);
+    }
+  }, [loggedIn]);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i === currentUser._id);
@@ -163,7 +165,7 @@ function App() {
     auth
       .login(email, password)
       .then((res) => {
-        localStorage.setItem("jwt", res.token);
+        //localStorage.setItem("jwt", res.token);
         setLoggedIn(true);
         setEmail(email);
         navigate("/");
@@ -176,25 +178,28 @@ function App() {
   }
 
   function signOut() {
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
-    setEmail(null);
+    auth
+      .logout()
+      .then(() => {
+        setLoggedIn(false);
+        setEmail(null);
+        navigate("/sign-up", { replace: true });
+      })
+      .catch(console.error);
   }
 
   function checkTocken() {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
+    //const jwt = localStorage.getItem("jwt");
       auth
-        .getToken(jwt)
+        .getToken()
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            navigate("/");
+            navigate("/", { replace: true });
             setEmail(res.email);
           }
         })
         .catch(console.error);
-    }
   }
 
   useEffect(() => {
