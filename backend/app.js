@@ -42,7 +42,7 @@ app.get('/crash-test', () => {
 });
 app.post('/signin', loginValidation, login);
 app.post('/signup', createNewUserValidation, createNewUser);
-app.post('/signout', logout);
+app.get('/signout', logout);
 
 app.use(auth);
 app.use('*', (req, res, next) => {
