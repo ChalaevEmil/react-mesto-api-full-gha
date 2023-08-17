@@ -32,12 +32,23 @@ function App() {
   const [infoTooltipIcon, setInfoTooltipIcon] = useState("");
   const [infoTooltipText, setInfoTooltipText] = useState("");
 
-  useEffect(() => {
+ useEffect(() => {
     if (loggedIn) {
-      Promise.all([api.getProfileInfo(), api.getStartedCards()])
-        .then(([profileInfo, card]) => {
+      api
+        .getProfileInfo()
+        .then(([profileInfo]) => {
           setCurrentUser(profileInfo);
-          setCards(card);
+        })
+        .catch(console.error);
+    }
+  }, [loggedIn]);
+
+useEffect(() => {
+    if (loggedIn) {
+      api
+        .getStartedCards()
+        .then(([card]) => {
+          setCurrentUser(card);
         })
         .catch(console.error);
     }
