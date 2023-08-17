@@ -42,7 +42,7 @@ export function getToken(jwt) {
 
 export function logout() {
   return fetch(`${BASE_URL}/signout`, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },

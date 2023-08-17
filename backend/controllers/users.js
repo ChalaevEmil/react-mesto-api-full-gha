@@ -124,11 +124,7 @@ const login = (req, res, next) => {
     });
 };
 
-const logout = (req, res) => {
-  if (res.cookie) {
-    res.clearCookie('jwt').status(200).send({ message: 'Выход' });
-  }
-};
+const logout = (req, res) => res.clearCookie('jwt').status(200).send({ message: 'Выход' });
 
 module.exports = {
   getUsers,
