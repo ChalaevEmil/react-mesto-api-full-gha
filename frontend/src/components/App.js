@@ -204,6 +204,7 @@ function App() {
 
   useEffect(() => {
     checkTocken();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
