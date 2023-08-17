@@ -32,11 +32,11 @@ function App() {
   const [infoTooltipIcon, setInfoTooltipIcon] = useState("");
   const [infoTooltipText, setInfoTooltipText] = useState("");
 
- useEffect(() => {
+  useEffect(() => {
     if (loggedIn) {
       api
         .getProfileInfo()
-        .then(([profileInfo]) => {
+        .then((profileInfo) => {
           setCurrentUser(profileInfo);
         })
         .catch(console.error);
@@ -47,8 +47,8 @@ useEffect(() => {
     if (loggedIn) {
       api
         .getStartedCards()
-        .then(([card]) => {
-          setCurrentUser(card);
+        .then((card) => {
+          setCards(card);
         })
         .catch(console.error);
     }
